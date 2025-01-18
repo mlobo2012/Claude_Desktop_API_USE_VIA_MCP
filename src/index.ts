@@ -48,21 +48,26 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   log(`Executing tool: ${request.params.name}`);
   
-  if (request.params.name === "send-message" && request.params.arguments) {
+  if (request.params.name === "send-message" && request.params.arguments?.message) {
     try {
       const msg = await client.messages.create({
         model: "claude-3-opus-20240229",
         max_tokens: 1024,
         messages: [
-          { role: "user", content: request.params.arguments.message }
+          { 
+            role: "user", 
+            content: String(request.params.arguments.message)
+          }
         ]
       });
+
+      const responseText = msg.content[0].type === 'text' ? msg.content[0].text : 'No text response available';
 
       return {
         content: [
           {
             type: "text",
-            text: msg.content[0].text
+            text: responseText
           }
         ]
       };
