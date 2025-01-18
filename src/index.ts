@@ -1,13 +1,13 @@
+import Anthropic from "@anthropic-ai/sdk";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { Claude } from "@anthropic-ai/sdk";
 
 const log = (message: string) => {
   console.error(`[DEBUG] ${message}`);
 };
 
-const claude = new Claude({
+const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY
 });
 
@@ -48,9 +48,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   log(`Executing tool: ${request.params.name}`);
   
-  if (request.params.name === "send-message") {
+  if (request.params.name === "send-message" && request.params.arguments) {
     try {
-      const msg = await claude.messages.create({
+      const msg = await client.messages.create({
         model: "claude-3-opus-20240229",
         max_tokens: 1024,
         messages: [
