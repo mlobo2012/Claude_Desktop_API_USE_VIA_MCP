@@ -1,0 +1,15 @@
+{
+  "name": "claude-api-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "mcp dev src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
+    "@anthropic-ai/sdk": "latest",
+    "typescript": "latest"
+  }
+}
