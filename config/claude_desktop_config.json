@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_GITHUB_TOKEN>"
+      }
+    },
+    "claude-api": {
+      "command": "python",
+      "args": ["./src/claude_api_server.py"],
+      "env": {
+        "ANTHROPIC_API_KEY": "<YOUR_ANTHROPIC_API_KEY>"
+      }
+    }
+  }
+}
